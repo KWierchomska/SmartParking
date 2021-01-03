@@ -1,10 +1,10 @@
-# Generated from IOT demo series here: https://www.youtube.com/watch?v=RJ1R0cLx0Fs
-# program to simulate some data on AWS IOT
-# Make sure you have "AWSIoTPythonSDK" installed before runing this script.
-from AWSIoTPythonSDK.MQTTLib import AWSIoTMQTTShadowClient
-import random, time
+import datetime
+import json
+import random
+import time
 
-# replace with the right certificates from  AWS IOT
+from AWSIoTPythonSDK.MQTTLib import AWSIoTMQTTShadowClient
+
 SHADOW_CLIENT = "raspShadowClient"
 HOST_NAME = "aj91jzc00agcm-ats.iot.us-east-1.amazonaws.com"
 ROOT_CA = "AmazonRootCA1.pem"
@@ -13,12 +13,12 @@ CERT_FILE = "3f0b7334d8-certificate.pem.crt"
 SHADOW_HANDLER = "Sensor1"
 
 
-def myShadowUpdateCallback(payload, responseStatus, token):
+def update_callback(payload, response_status, token):
     print()
     print('UPDATE: $aws/things/' + SHADOW_HANDLER +
           '/shadow/update/#')
     print("payload = " + payload)
-    print("responseStatus = " + responseStatus)
+    print("responseStatus = " + response_status)
     print("token = " + token)
 
 
@@ -35,25 +35,20 @@ raspShadowClient.connect()
 myDeviceShadow = raspShadowClient.createShadowHandlerWithName(
     SHADOW_HANDLER, True)
 
-# Keep generating random test data until this scrip stops running.
-# To stop running this script, press Ctrl+C.
-
 while True:
-    # Generate random True or False test data to represent
-    # okay or low available levels, respectively.
-
-    print("--------------------------")
     available = random.choice([True, False])
-    # print(available)
-    if available:
-        myDeviceShadow.shadowUpdate(
-            '{"state":{"reported":{"available":"true"}}}',
-            myShadowUpdateCallback, 5)
-    else:
-        myDeviceShadow.shadowUpdate(
-            '{"state":{"reported":{"available":"false"}}}',
-            myShadowUpdateCallback, 5)
+    data = {"state": {
+        "reported": {
+            "deviceID": "SENSOR1",
+            "latitude": -32.8645,
+            "longitude": 25.9577,
+            "available": available,
+            "time": str(datetime.datetime.now()),
+            "battery": 0.7,
+            "address": "190 Seth Ways, XYZ, A",
+            "payable": True
+        }
+    }}
+    myDeviceShadow.shadowUpdate(json.dumps(data), update_callback, 5)
 
-    # Wait for this test value to be added.
-    # sleep 60 seconds
     time.sleep(60)

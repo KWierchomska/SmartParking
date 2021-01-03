@@ -14,15 +14,18 @@
       </list>
     </option>
   </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
   <component name="ProjectId" id="1m3PFzQ7yWnEnI3eA0E5YWnBXls" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
-    <option name="showExcludedFiles" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
   </component>
   <component name="RunManager">
@@ -38,6 +41,7 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/sensor1.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
@@ -53,6 +57,7 @@
       </list>
     </recent_temporary>
   </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="SvnConfiguration">
     <configuration />
   </component>
@@ -63,21 +68,15 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1608719201843</updated>
+      <workItem from="1609585251237" duration="15021000" />
+      <workItem from="1609693451207" duration="4473000" />
     </task>
     <servers />
   </component>
-  <component name="WindowStateProjectService">
-    <state x="367" y="144" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1608719226975">
-      <screen x="0" y="0" width="1280" height="680" />
-    </state>
-    <state x="367" y="144" key="#com.intellij.fileTypes.FileTypeChooser/0.0.1280.680/1920.0.1920.1160@0.0.1280.680" timestamp="1608719226975" />
-    <state x="336" y="226" key="com.intellij.ide.util.TipDialog" timestamp="1608719203113">
-      <screen x="0" y="0" width="1280" height="680" />
-    </state>
-    <state x="336" y="226" key="com.intellij.ide.util.TipDialog/0.0.1280.680/1920.0.1920.1160@0.0.1280.680" timestamp="1608719203113" />
-    <state x="2575" y="119" width="740" height="909" key="find.popup" timestamp="1608719778875">
-      <screen x="1920" y="0" width="1920" height="1160" />
-    </state>
-    <state x="2575" y="119" width="740" height="909" key="find.popup/0.0.1280.680/1920.0.1920.1160@0.0.1280.680" timestamp="1608719778875" />
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/Sensor1$sensor1.coverage" NAME="sensor1 Coverage Results" MODIFIED="1609704755498" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
 </project>
