@@ -16,12 +16,11 @@ MAP_LAT_MAX = 50.085449
 # Boundary Box of the map file high_resolution_image.png
 BBox = (MAP_LONG_MIN, MAP_LONG_MAX, MAP_LAT_MIN, MAP_LAT_MAX)
 
-
 # Example latitude, longitude arrays
-LATITUDE_ARR = [50.06477478214624, 50.062690310916075, 50.05767280893131, 50.05571219152061, 50.05862094762662]
-LONGITUDE_ARR = [19.93192798675469, 19.931092082082436, 19.9307177912443, 19.942482360328277, 19.945385956102193]
+LATITUDE_ARR = []       # [50.06477478214624, 50.062690310916075, 50.05767280893131, 50.05571219152061, 50.05862094762662]
+LONGITUDE_ARR = []      # [19.93192798675469, 19.931092082082436, 19.9307177912443, 19.942482360328277, 19.945385956102193]
 # Point color array
-COLORS = ['b' for _ in LONGITUDE_ARR]
+COLORS = []               # ['b' for _ in LONGITUDE_ARR]
 
 while True:
     print("Enter latitude:")
@@ -49,9 +48,14 @@ while True:
         dist = geopy.distance.distance(c1,c2).km
         print(str(it) + " latitude,longitude: " + el["geoJson"]["S"] + "; distance: " + str(dist))
 
-        # TODO: Add latitude, longitude to arrays + set color of new point
+        # TODO: Check (Add latitude, longitude to arrays + set color of new point)
+        # Add parking spot to list
+        point = el["geoJson"]["S"].split(",")
+        LATITUDE_ARR.append(float(point[0]))
+        LONGITUDE_ARR.append(float(point[1]))
+        COLORS.append('b')
 
-    # DRAW PLOT
+    # Draw Plot
     fig, ax = plt.subplots(figsize=(10, 10))
     ax.scatter(LONGITUDE_ARR, LATITUDE_ARR, zorder=1, alpha=0.2, c=COLORS, s=150)
 
