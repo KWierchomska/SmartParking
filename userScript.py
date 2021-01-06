@@ -46,7 +46,7 @@ while True:
         c1 = (lat, long)
         c2 = (el["geoJson"]["S"])
         dist = geopy.distance.distance(c1,c2).km
-        print(str(it) + " latitude,longitude: " + el["geoJson"]["S"] + "; distance: " + str(dist))
+        print(str(it) + " latitude,longitude: " + el["geoJson"]["S"] + "; distance: " + str(dist) + " address: " + el["address"]["S"])
 
         # TODO: Check (Add latitude, longitude to arrays + set color of new point)
         # Add parking spot to list
@@ -57,7 +57,7 @@ while True:
 
     # Draw Plot
     fig, ax = plt.subplots(figsize=(10, 10))
-    ax.scatter(LONGITUDE_ARR, LATITUDE_ARR, zorder=1, alpha=0.2, c=COLORS, s=150)
+    ax.scatter(LONGITUDE_ARR, LATITUDE_ARR, zorder=1, alpha=0.7, c=COLORS, s=175)
 
     ax.set_title('Available Parking Spots')
 
