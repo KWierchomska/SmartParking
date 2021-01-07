@@ -1,6 +1,5 @@
 import requests
 import geopy.distance
-import time
 import matplotlib.pyplot as plt
 
 URL = "https://8oweaskc5f.execute-api.us-east-1.amazonaws.com/test/queries"
@@ -48,7 +47,6 @@ while True:
         dist = geopy.distance.distance(c1,c2).km
         print(str(it) + " latitude,longitude: " + el["geoJson"]["S"] + "; distance: " + str(dist) + " address: " + el["address"]["S"])
 
-        # TODO: Check (Add latitude, longitude to arrays + set color of new point)
         # Add parking spot to list
         point = el["geoJson"]["S"].split(",")
         LATITUDE_ARR.append(float(point[0]))
