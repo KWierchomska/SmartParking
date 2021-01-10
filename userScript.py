@@ -70,3 +70,6 @@ while True:
     ax.set_ylim(min(LATITUDE_ARR) - 0.005, max(LATITUDE_ARR) + 0.005)
     plt.show()
     #time.sleep(10)
+    LATITUDE_ARR = []
+    LONGITUDE_ARR = []
+    COLORS = []     
