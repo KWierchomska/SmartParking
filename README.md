@@ -17,3 +17,21 @@ To describe the sequence of operation in more detail:
 1. After being turned on, a sensor will begin periodically sending MQTT messages to IoT Core with updates on its current status
 2. These messages are forwarded to Lambda, where a dedicated handler function will update the device's status in the database. If the device is connecting for the first time, the function will create a corresponding entry in the database.
 3. Eventually, a client app will make a request to find nearby parking spaces. This occurs via HTTP. The request is recieved by the API Gateway and forwarded to a handler function in Lambda. This function conducts the search based on client-specified parameters and replies with a set of spots that match the criteria. These are then sent back to the client as JSON in a HTTP response.
+
+## Architecture scheme
+![Architecture scheme](images/scheme.png) <br>
+
+## Presentation
+
+### Examplary input
+![Input](images/input.png) <br>
+
+### Visualisation
+![Parking spots map](images/map.png) <br>
+
+
+
+
+
+
+
