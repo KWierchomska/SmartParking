@@ -1,43 +1,17 @@
-import random
-import datetime
-import time
 import config
+from GenericSensor import GenericSensor
 
 SHADOW_CLIENT = "Sensor5"
-MQTT_CLIENT = "Sensor5_MQTT"
+MQTT_CLIENT   = "Sensor5_MQTT"
+shadow        = config.setupShadow(SHADOW_CLIENT)
+mqttClient    = config.setupMQTT(MQTT_CLIENT)
 
-shadow = config.setupShadow(SHADOW_CLIENT)
-mqttClient = config.setupMQTT(MQTT_CLIENT)
+initBattery   = 0.25
+deviceID      = "SENSOR5"
+latitude      = 50.071929
+longitude     = 19.935553
+address       = "Długa 72, Kraków"
+payable       = True
 
-battery = 1.0
-batteryWarningSent = False
-
-while True:
-    available = random.choice([True, False])
-    data = {"state": {
-        "reported": {
-            "deviceID": "SENSOR5",
-            "latitude": 50.071929,
-            "longitude": 19.935553,
-            "available": available,
-            "time": str(datetime.datetime.now()),
-            "battery": battery,
-            "address": "Długa 72, Kraków",
-            "payable": True
-        }
-    }}
-
-    battery = config.sendShadow(data, shadow)
-
-    if battery <= 0.2 and not batteryWarningSent:
-        config.sendMQTT(mqttClient, "SENSOR5", battery)
-        batteryWarningSent = True
-    if battery > 0.2:
-        batteryWarningSent = False
-
-    if battery == 0.0:
-        shadow.disconnect()
-        mqttClient.disconnect()
-        exit(1)
-
-    time.sleep(60)
+sensorInstance = GenericSensor(shadow, mqttClient, initBattery, deviceID, latitude, longitude, address, payable)
+sensorInstance.run()
