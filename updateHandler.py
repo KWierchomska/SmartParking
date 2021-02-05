@@ -15,7 +15,7 @@ def lambda_handler(event, context):
     geoDataManager = dynamodbgeo.GeoDataManager(config)
 
     # Pick a hashKeyLength appropriate to your usage
-    config.hashKeyLength = 3
+    config.hashKeyLength = 10
 
     # Use GeoTableUtil to help construct a CreateTableInput.
     table_util = dynamodbgeo.GeoTableUtil(config)
@@ -30,16 +30,18 @@ def lambda_handler(event, context):
 
     # define a dict of the item to update
     UpdateItemDict = {  # Dont provide TableName and Key, they are filled in for you
-        "UpdateExpression": "set available = :val",
+        "UpdateExpression": "set available = :val1, battery = :val2, payable = :val3",
         "ExpressionAttributeValues": {
-            ":val": {"BOOL": event['state']['reported']['available']}
+            ":val1": {"BOOL": event['state']['reported']['available']},
+            ":val2": {'N': str(event['state']['reported']['battery'])},
+            ":val3": {'BOOL': event['state']['reported']['payable']}
         },
-        'ConditionExpression': "attribute_exists(hashKey)",
+        'ConditionExpression': "attribute_exists(rangeKey)",
         "ReturnValues": "ALL_NEW"
     }
     response = geoDataManager.update_Point(dynamodbgeo.UpdateItemInput(
         dynamodbgeo.GeoPoint(event['state']['reported']['latitude'], event['state']['reported']['longitude']),
-        # latitude then latitude longitude
+        # latitude then longitude
         event['state']['reported']['deviceID'],  # Use this to ensure uniqueness of the hash/range pairs.
         UpdateItemDict  # pass the dict that contain the remaining parameters here
     ))
@@ -53,7 +55,7 @@ def lambda_handler(event, context):
             'address': {'S': event['state']['reported']['address']},
             'payable': {'BOOL': event['state']['reported']['payable']}
         },
-        'ConditionExpression': "attribute_not_exists(hashKey)"
+        'ConditionExpression': "attribute_not_exists(rangeKey)"
         # ... Anything else to pass through to `putItem`, eg ConditionExpression
     }
 

@@ -16,7 +16,7 @@ def lambda_handler(event, context):
     geoDataManager = dynamodbgeo.GeoDataManager(config)
 
     # this is necessary for some reason
-    config.hashKeyLength = 3
+    config.hashKeyLength = 10
     table_util = dynamodbgeo.GeoTableUtil(config)
     create_table_input = table_util.getCreateTableRequest()
     create_table_input["ProvisionedThroughput"]['ReadCapacityUnits'] = 5
