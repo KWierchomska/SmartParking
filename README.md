@@ -16,7 +16,7 @@ Technology-wise the project is based on Amazon's web services, specifically API 
 ## IoT Core
 AWS IoT Core provides secure, bi-directional communication for Internet-connected devices (such as sensors) to connect to the AWS Cloud over MQTT, HTTPS.
 #### Sensors
-10 sensors have been created each of them is represented as Thing in IoT Core service. We have provided the same policy to every sensor to control many nearly identical devices.
+For the purposes of non-trivial simulatino we have created 10 simulated sensors, each of them represented as Thing in IoT Core. Each of them is provided with the same policy, as they are nearly identical.
 ![Architecture scheme](images/sensors.png) <br>
 ![Architecture scheme](images/policy.png) <br>
 
