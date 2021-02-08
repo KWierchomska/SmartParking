@@ -9,9 +9,9 @@ Authors:
 
 ## Description
 
-Technology-wise the project is based on Amazon's web services, specifically API Gateway, DynamoDB, Lambda, the IoT Core and as well SNS. To aid with the specifics of the topic we used an extension library for DynamoDB used for managing geographic position data. The scripts representing the client app and IoT devices are written in Python.
+Technology-wise the project is based on Amazon's web services, specifically API Gateway, DynamoDB, Lambda, the IoT Core and SNS. To aid with the specifics of the topic we used an extension library for DynamoDB used for managing geographic position data. The scripts representing the client app and IoT devices are written in Python.
 
-## Architecture scheme
+## Architecture schema
 ![Architecture scheme](images/scheme.png) <br>
 ## IoT Core
 AWS IoT Core provides secure, bi-directional communication for Internet-connected devices (such as sensors) to connect to the AWS Cloud over MQTT, HTTPS.
@@ -20,9 +20,9 @@ AWS IoT Core provides secure, bi-directional communication for Internet-connecte
 ![Architecture scheme](images/sensors.png) <br>
 ![Architecture scheme](images/policy.png) <br>
 
-[GenericSensor](Sensors/GenericSensor.py) class imitates a real device which:
-- connects to the service 
-- publish to the **$aws/things/Sensors/shadow/update** topic data:
+The [GenericSensor](Sensors/GenericSensor.py) class imitates a real device which:
+- connects to the service
+- publishes to the **$aws/things/Sensors/shadow/update** topic, sending the following data:
 ```json
 {"state": {
                 "reported": {
@@ -37,54 +37,54 @@ AWS IoT Core provides secure, bi-directional communication for Internet-connecte
                 }
 }}
 ```
-- publish to the **$aws/things/Sensors/battery** topic information about battery level
+- publishes to the **$aws/things/Sensors/battery** topic, sending information about battery level
 
-In summary device after being turned on, will begin periodically sending MQTT messages to IoT Core with updates on its current status.
+To quickly summarize, once turned on the device will begin periodically sending MQTT messages to IoT Core with updates on its current status.
 
 #### Rules
 
-Enable interacting with AWS Services. We have created 2 rules:
-- insertRule which triggers Lambda function for inserting and updating information into the DynamoDB
+The rules govern interaction with AWS Services. For this project we created two of them:
+- the insertRule, which triggers the Lambda function responsible for inserting information into DynamoDB and updating present records
 ![Architecture scheme](images/insertRule.png) <br>
   
-- batteryRule which sends a message as an SNS push notification to admin e-mail, when sensor's battery level is lower than 20%
+- the batteryRule, which detects whether a sensor's battery level is below 20%, and if so sends an SNS push notification to the administrator email
 ![Architecture scheme](images/batteryRule.png) <br>
   
 ## DynamoDB
-DynamoDB is a fully managed proprietary NoSQL database. With usage of Geo Library for Amazon DynamoDB (dynamodbgeo) library we were able to make geospatial data manipulation and querying much more efficient.
-All information sent from sensors were stored and updated in this database.
+DynamoDB is a fully managed proprietary NoSQL database. Using the Geo Library for Amazon DynamoDB (dynamodbgeo) library we were able to make geospatial data manipulation and querying much more efficient.
+All information sent from sensors is stored and updated in this database.
 ![Architecture scheme](images/dynamodb.png) <br>
 
 ## Simple Notification Service
-Amazon Simple Notification Service (Amazon SNS) is a web service that coordinates and manages the delivery or sending of messages to subscribing endpoints or clients. We have used it for notifying admin about low battery level in sensor, by sending e-mail.
+Amazon's Simple Notification Service (SNS) is a web service that coordinates and manages the delivery or sending of messages to subscribing endpoints or clients. As previously mentioned, we use it for notifying the admin about low battery levels in sensors by sending an email.
 
 
 ## API Gateway
 API Gateway provides tools for creating and documenting web APIs that route HTTP requests to Lambda functions.
-We have managed to use this service for making request from client app in order to find unoccupied parking spots.
-API Gateway waits for a response from function and relays the result to the caller.
+We use this service to query the database for unoccupied parking spots from the client app.
+Upon recieving a request, the API Gateway forwards it to an appropriate Lambda handler, waits for a result from the function, then relays said result to the caller.
 
   
 ## Lambda
-It is a computing service that runs code in response to events and automatically manages the computing resources required by that code.
+AWS Lambda is a computing service that runs code in response to events and automatically manages the computing resources required by that code.
 
-In our project messages which were sent by sensors are forwarded to Lambda, where a dedicated handler function [updateHandler](updateHandler.py) will update the device's status in the database. If the device is connecting for the first time, the function will create a corresponding entry in the database.
+In our project, messages sent by the sensors are forwarded to Lambda, where a dedicated handler function [updateHandler](updateHandler.py) updates the device's status in the database. If the device is connecting for the first time, the function will create a corresponding entry in the database.
 
-Eventually, a client app [userScript](userScript.py) will make a request to find nearby parking spaces. This occurs via HTTP. The request is received by the API Gateway and forwarded to a handler function [findParkingSpaces](findParkingSpaces.py). This function conducts the search based on client-specified parameters and replies with a set of spots that match the criteria. These are then sent back to the client as JSON in a HTTP response.
+Eventually, an instance of the client app ([userScript](userScript.py)) will make a request to find nearby parking spaces. This occurs via HTTP. The request is received by the API Gateway and forwarded to the [findParkingSpaces](findParkingSpaces.py) handler function. This function conducts the search based on client-specified parameters and replies with a set of spots that match the criteria. These are then sent back to the client as JSON in a HTTP response.
 
 ## IAM
 AWS Identity and Access Management (IAM) helps define what a principal entity (person or application) is allowed to do in an account.
 Access can be managed in AWS by creating policies and attaching them to IAM identities (users, groups of users, or roles) or AWS resources.
-It was necessary for us to use this service in order to enable Lambda functions full access to DynamoDB and for examine debug messages in Cloud Watch.
+It was necessary for us to use this service in order to give the Lambda functions full access to DynamoDB, as well as to enable Cloud Watch logs.
 
 
 ## Presentation
 
-To visualize the functioning of our application we prepared a high resolution image, which is a part of Google Maps, presenting the city center of Cracow. 
-On this map we present the position of user based on given coordinates and found available parking spots within the specified radius.
+To visualize the functioning of our application we prepared a high resolution image, a part of Google Maps, presenting the city center of Cracow. 
+On this map we display the position of the user based on given coordinates, as well as show available parking spots within the specified radius.
 
 ### User program
-The input arguments of our program are latitude, longitude and radius of search. Based on given data, program is sending the request to the database and receives json with the list of available parking places. <br>
+The input arguments of our program are the users latitude and longitude, as well as the radius of search. Based on the given data, the program sends a request to the database and receives a JSON structure containing the list of available parking places. <br>
 ![Input](images/input.png) <br>
 
 ### Visualisation
