@@ -56,7 +56,8 @@ All information sent from sensors is stored and updated in this database.
 ![Architecture scheme](images/dynamodb.png) <br>
 
 ## Simple Notification Service
-Amazon's Simple Notification Service (SNS) is a web service that coordinates and manages the delivery or sending of messages to subscribing endpoints or clients. As previously mentioned, we use it for notifying the admin about low battery levels in sensors by sending an email.
+Amazon's Simple Notification Service (SNS) is a web service that coordinates and manages the delivery or sending of messages to subscribing endpoints or clients. As previously mentioned, we use it for notifying the admin about low battery levels in sensors. Whenever the a device's battery falls below 20% charge, the following email will be sent:
+![Architecture scheme](images/reminder.png) <br>
 
 
 ## API Gateway
