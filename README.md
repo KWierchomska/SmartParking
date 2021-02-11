@@ -18,7 +18,7 @@ AWS IoT Core provides secure, bi-directional communication for Internet-connecte
 #### Sensors
 For the purposes of non-trivial simulatino we have created 10 simulated sensors, each of them represented as Thing in IoT Core. Each of them is provided with the same policy, as they are nearly identical.
 ![Architecture scheme](images/sensors.png) <br>
-![Architecture scheme](images/policy.png) <br>
+![Architecture scheme](images/sensor1.png) <br>
 
 The [GenericSensor](Sensors/GenericSensor.py) class imitates a real device which:
 - connects to the service
